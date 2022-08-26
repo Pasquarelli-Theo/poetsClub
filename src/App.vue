@@ -7,6 +7,7 @@ import { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/Supaba
 
 <template>    
     <header>
+    <router-link to="/">Go to Home</router-link>
     <img alt="Poetry" class="logo" src="./assets/logo.png" width="125" height="125" />
     <div class="wrapper" id="signOut">
       <div><SignIn msg="Poet ! Tell us who you are !" /></div>
@@ -20,16 +21,27 @@ import { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/Supaba
     </div>
     <div class="hidden" id="addPoem">
       <div><SignIn msg="Write your poem !" /></div>
-      	<label>Poem's title</label><br>
+      <h3>The poem remains private, until you make it public</h3>
+      <label>Poem's title</label><br>
 	      <input type="text" required name="title" v-model="title" placeholder="edit me"><br>
 	      <label>Poem's content</label><br>
         <textarea required name="content" v-model="content" placeholder="edit me" rows="10" cols="50">Your poem here ...
         </textarea> <br>
-	      <input type="checkbox" v-model="hidden" placeholder=true />
+        <label>Illustration: </label>
+        
+	      <input type="file"  id="file" name="file" placeholder="my file" accept="image/png, image/jpeg"><br>
+	      <!--<img id="illustration" src="./assets/null.png" alt="poem illustration" width="75" height="75"/><br>-->
+        <input type="checkbox" v-model="hidden" value=true/>
         <label>Hidden poem</label>
       <br><button v-on:click="createPoem()">Add the poem</button>
-      <button v-on:click="fetchPoems()">List of poems</button>
+      <button v-on:click="fetchPoems()">List of poems</button><br>
+      <label for="poemtitle" id="poemtitle" style="color: teal;font-weight: 500;"> ... </label> 
+      <img id="poemillustration" src="./assets/null.jpg" alt="poem illustration" width="75" height="75" style="background-color:gray;"/><br>
+      <textarea  id="poemcontent" readonly rows="10" cols="50"> ... </textarea> <br>
+      <button v-on:click="nextPoem()">Next poem</button><br>
+      
     </div>
+    
   </header>
   
   <main>
@@ -39,37 +51,40 @@ import { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/Supaba
 
 <script>
 
-const supabaseUrl = 'https://kqucrmtwrprlvuwfzvee.supabase.co'
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxdWNybXR3cnBybHZ1d2Z6dmVlIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTc2MDc2ODAsImV4cCI6MTk3MzE4MzY4MH0.udaSZ-cJrScuw3KNUJWfit3DjVWbKI7H07bFjzUXWYE'
-const supabase = createClient(supabaseUrl, SUPABASE_KEY)
+const SUPABASE_URL = 'YOUR_SUPABASE_URL'
+const SUPABASE_KEY = 'ANON_SUPABASE_KEY'
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY)
 
 
 export default {
-  data() {
-    return {          
-    }
-  },
   methods: {  
-    //this method allows to add new poem for the authenticated user (after sign in) 
-    async createPoem(){
-       
-    },
-    //this method allows to extract all readable poems of the authenticated user
-    //including his peoms and the not hidden poems. This policy is implemented by the supabase system 
-    async fetchPoems(){
-       
-    },
     //this method allows a new user to sign up the system. Once done, the user receives an email
     //asking for account validation. Once the validation made the user is added to the system
     async register(){
-       
+
     },
     //this method allows the already registred user to log in the system.
     //only authenticated users can later add or read the poems
     async login(){
-       
+
+    },
+    //this method allows to add new poem for the authenticated user (after sign in) 
+    //it is called when the user click on the add poem button after being entered
+    //the title, the content, the visibility and the associated illustration
+    async createPoem(){
+    
+    },
+    //this method allows to extract all readable poems of the authenticated user
+    //including his peoms and the not hidden poems. This policy is implemented by the supabase system 
+    async fetchPoems(){
+        
+    },
+    //this function allows to display the next accessibe poem for the current user
+    //the fetch button should be selected before
+    nextPoem(){
+    
     }
-  }
+  }  
 }
 </script>
 
